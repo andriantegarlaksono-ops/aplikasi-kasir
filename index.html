@@ -353,6 +353,71 @@
 
     <!-- MODAL 2: RECEIPT PREVIEW (PRINT SIMULATION) -->
     <div id="receipt-modal" class="modal">
+        <!-- Bagian Modal Utama (Tetap seperti aslinya) -->
+<div id="receipt-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 2000;">
+    
+    <!-- Box Putih Modal: Kita batasi tingginya maksimal 90% layar dan susun vertikal -->
+    <div style="background: white; padding: 20px; border-radius: 8px; width: 100%; max-width: 400px; max-height: 90vh; display: flex; flex-direction: column;">
+        
+        <!-- 1. AREA STRUK (Bisa di-scroll kalau kepanjangan) -->
+        <div style="flex: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 15px;">
+            
+            <!-- Teks Nama Kafe Baru -->
+            <div style="text-align: center; margin-bottom: 10px;">
+                <h3 id="receipt-title-val" style="margin: 0; font-size: 1.2rem;">BELLA COZZY</h3>
+                <p id="receipt-address-val" style="margin: 5px 0 0 0; font-size: 0.85rem; color: #666;"></p>
+                <p id="receipt-phone-val" style="margin: 2px 0 0 0; font-size: 0.85rem; color: #666;"></p>
+            </div>
+            
+            <hr style="border-top: 1px dashed #bbb; margin: 10px 0;">
+            
+            <!-- Info Transaksi -->
+            <div style="font-size: 0.85rem; color: #333; line-height: 1.4;">
+                <div>ID Transaksi: <span id="receipt-tx-id"></span></div>
+                <div>Tanggal: <span id="receipt-date"></span></div>
+                <div>Metode: <span id="receipt-method"></span></div>
+            </div>
+            
+            <hr style="border-top: 1px dashed #bbb; margin: 10px 0;">
+            
+            <!-- Daftar Item Belanjaan -->
+            <div id="receipt-items-list">
+                <!-- Loaded dynamically -->
+            </div>
+            
+            <hr style="border-top: 1px dashed #bbb; margin: 10px 0;">
+            
+            <!-- Total Rincian Biaya -->
+            <div style="font-size: 0.9rem; line-height: 1.5;">
+                <div style="display: flex; justify-content: space-between;"><span>Subtotal:</span><span id="receipt-subtotal"></span></div>
+                <div style="display: flex; justify-content: space-between;"><span id="receipt-tax-label">Pajak:</span><span id="receipt-tax"></span></div>
+                <div id="receipt-discount-row" style="display: flex; justify-content: space-between;"><span>Diskon:</span><span id="receipt-discount"></span></div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; margin-top: 5px; font-size: 1rem;"><span>Total Akhir:</span><span id="receipt-total"></span></div>
+                <div style="display: flex; justify-content: space-between; color: #27ae60; margin-top: 2px;"><span>Dibayar:</span><span id="receipt-paid"></span></div>
+                <div style="display: flex; justify-content: space-between; color: #e74c3c;"><span>Kembalian:</span><span id="receipt-change"></span></div>
+            </div>
+            
+            <hr style="border-top: 1px dashed #bbb; margin: 10px 0;">
+            
+            <!-- Footer Struk -->
+            <div style="text-align: center; font-size: 0.8rem; color: #666;">
+                <p id="receipt-footer-msg1" style="margin: 0;"></p>
+                <p id="receipt-footer-msg2" style="margin: 5px 0 0 0;"></p>
+            </div>
+        </div>
+        
+        <!-- 2. AREA TOMBOL (Dikunci di paling bawah, TIDAK AKAN ikut ter-scroll) -->
+        <div style="display: flex; gap: 10px; border-top: 1px solid #eee; padding-top: 10px;">
+            <button onclick="printReceipt()" style="flex: 1; background: #27ae60; color: white; border: none; padding: 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                🖨️ Cetak Struk
+            </button>
+            <button onclick="closeModal('receipt-modal')" style="flex: 1; background: #95a5a6; color: white; border: none; padding: 10px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                Tutup
+            </button>
+        </div>
+
+    </div>
+</div>
         <div class="modal-content receipt-modal-content">
             <div class="modal-header">
                 <h2>Struk Pembelian</h2>
