@@ -784,3 +784,44 @@ function tutupBukuHarian() {
         alert("Tutup buku berhasil! Statistik harian telah di-reset, dan data aman di arsip.");
     }
 }
+// Fungsi untuk membuka modal arsip dan menampilkan datanya
+function openArchiveModal() {
+    const modal = document.getElementById('archive-modal');
+    const listBody = document.getElementById('archive-list');
+    if (!modal || !listBody) return;
+
+    listBody.innerHTML = '';
+
+    // Ambil data dari penyimpanan arsip permanen
+    let archive = [];
+    if (localStorage.getItem('cozy_cafe_archive')) {
+        archive = JSON.parse(localStorage.getItem('cozy_cafe_archive'));
+    }
+
+    // Jika arsip masih kosong
+    if (archive.length === 0) {
+        listBody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 20px; color: #7f8c8d;">
+                    Belum ada data transaksi yang diarsip.
+                </td>
+            </tr>
+        `;
+    } else {
+        // Tampilkan data arsip (terbaru ditaruh paling atas)
+        const reversedArchive = [...archive].reverse();
+        reversedArchive.forEach(tx => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>${tx.id}</strong></td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${tx.datetime}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">${tx.method}</td>
+                <td style="padding: 10px; border: 1px solid #ddd;"><strong>${formatRupiah(tx.total)}</strong></td>
+            `;
+            listBody.appendChild(row);
+        });
+    }
+
+    // Tampilkan modal pop-up ke layar
+    modal.style.display = 'flex';
+}
