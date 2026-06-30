@@ -8,7 +8,7 @@ let selectedPaymentMethod = 'Cash';
 
 // Default Settings
 let settings = {
-    cafeName: 'CAFFÈ ANDRIAN COZY',
+    cafeName: 'CAFFÈ BELLA COZY',
     cafeAddress: 'Jl. Sidokatut Ketanireng kode pos 67157',
     cafePhone: '085536581733',
     receiptFooter1: 'Terima Kasih Atas Kunjungan Anda',
