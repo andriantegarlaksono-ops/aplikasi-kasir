@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caffè Cashier - Aplikasi Kasir Premium</title>
+    <!-- Google Fonts for modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">☕</div>
+                <div class="brand-name">
+                    <h1>Caffè Cashier</h1>
+                    <span>Sistem POS Cafe</span>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" id="nav-pos" onclick="switchTab('pos')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                    Point of Sale (POS)
+                </button>
+                <button class="nav-item" id="nav-menu-mgmt" onclick="switchTab('menu-mgmt')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    Kelola Menu
+                </button>
+                <button class="nav-item" id="nav-history" onclick="switchTab('history')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    Riwayat Penjualan
+                </button>
+                <button class="nav-item" id="nav-settings" onclick="switchTab('settings')">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Pengaturan Struk
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="datetime">
+                    <div id="date-display">Selasa, 30 Juni 2026</div>
+                    <div id="time-display">08:50</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- TAB 1: POS WORKSPACE -->
+            <section id="tab-pos" class="tab-panel active">
+                <div class="pos-layout">
+                    <!-- Left: Menu Catalog -->
+                    <div class="menu-section">
+                        <header class="section-header">
+                            <div class="search-bar">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <input type="text" id="menu-search" placeholder="Cari kopi, makanan, cemilan..." oninput="filterMenu()">
+                            </div>
+                            <div class="category-filters" id="category-filters">
+                                <button class="filter-pill active" onclick="setCategoryFilter('all')">Semua</button>
+                                <button class="filter-pill" onclick="setCategoryFilter('kopi')">☕ Kopi</button>
+                                <button class="filter-pill" onclick="setCategoryFilter('non-kopi')">🥤 Non-Kopi</button>
+                                <button class="filter-pill" onclick="setCategoryFilter('makanan')">🍛 Makanan</button>
+                                <button class="filter-pill" onclick="setCategoryFilter('cemilan')">🥐 Cemilan</button>
+                            </div>
+                        </header>
+                        
+                        <div class="menu-grid" id="menu-grid">
+                            <!-- Dynamically loaded menu cards -->
+                        </div>
+                    </div>
+
+                    <!-- Right: Active Cart -->
+                    <div class="cart-section">
+                        <div class="cart-header">
+                            <h2>Pesanan Aktif</h2>
+                            <button class="clear-cart-btn" onclick="clearCart()">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                Reset
+                            </button>
+                        </div>
+
+                        <div class="cart-items-wrapper" id="cart-items">
+                            <!-- Empty Cart State -->
+                            <div class="empty-cart">
+                                <div class="empty-icon">🛒</div>
+                                <p>Keranjang kosong. Pilih menu di sebelah kiri untuk memesan.</p>
+                            </div>
+                        </div>
+
+                        <div class="cart-summary">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="cart-subtotal">Rp 0</span>
+                            </div>
+                            <div class="summary-row tax-row">
+                                <label for="cart-tax-input">Pajak (%)</label>
+                                <input type="number" id="cart-tax-input" min="0" max="100" value="10" oninput="calculateTotal()">
+                            </div>
+                            <div class="summary-row">
+                                <span>Nilai Pajak</span>
+                                <span id="cart-tax">Rp 0</span>
+                            </div>
+                            <div class="summary-row discount-row">
+                                <label for="cart-discount-input">Diskon (%)</label>
+                                <input type="number" id="cart-discount-input" min="0" max="100" value="0" oninput="calculateTotal()">
+                            </div>
+                            <div class="summary-row total-row">
+                                <span>Total Tagihan</span>
+                                <span id="cart-total">Rp 0</span>
+                            </div>
+                            <button class="checkout-btn" id="btn-checkout" onclick="openPaymentModal()" disabled>
+                                Bayar Sekarang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: MENU MANAGEMENT -->
+            <section id="tab-menu-mgmt" class="tab-panel">
+                <div class="mgmt-layout">
+                    <div class="mgmt-header">
+                        <h2>Kelola Menu Cafe</h2>
+                        <button class="add-menu-btn" onclick="openAddMenuModal()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Tambah Menu Baru
+                        </button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="mgmt-table">
+                            <thead>
+                                <tr>
+                                    <th>Nama Menu</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Deskripsi</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menu-mgmt-list">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: TRANSACTION HISTORY -->
+            <section id="tab-history" class="tab-panel">
+                <div class="history-layout">
+                    <h2>Riwayat Penjualan</h2>
+                    
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon revenue-icon">💰</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Omset</span>
+                                <h3 id="stat-total-revenue">Rp 0</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon trans-icon">📋</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Jumlah Transaksi</span>
+                                <h3 id="stat-total-transactions">0</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon average-icon">📈</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Rata-rata Pembelian</span>
+                                <h3 id="stat-avg-transaction">Rp 0</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="history-table-container">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Transaksi</th>
+                                    <th>Tanggal & Waktu</th>
+                                    <th>Metode</th>
+                                    <th>Subtotal</th>
+                                    <th>Total Bayar</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-list">
+                                <!-- Loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: RECEIPT SETTINGS -->
+            <section id="tab-settings" class="tab-panel">
+                <div class="mgmt-layout">
+                    <div class="mgmt-header">
+                        <h2>Pengaturan Informasi Struk Cafe</h2>
+                    </div>
+                    <div class="table-container" style="padding: 2.5rem; max-width: 600px; margin-top: 1rem;">
+                        <form id="settings-form" onsubmit="saveSettings(event)" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div class="input-group">
+                                <label for="settings-cafe-name">Nama Cafe</label>
+                                <input type="text" id="settings-cafe-name" required placeholder="Contoh: CAFFÈ ANDRIAN COZY">
+                            </div>
+                            <div class="input-group">
+                                <label for="settings-cafe-address">Alamat Cafe</label>
+                                <input type="text" id="settings-cafe-address" required placeholder="Contoh: Jl. Sidokatut Ketanireng kode pos 67157">
+                            </div>
+                            <div class="input-group">
+                                <label for="settings-cafe-phone">No. Telepon / HP</label>
+                                <input type="text" id="settings-cafe-phone" required placeholder="Contoh: 085536581733">
+                            </div>
+                            <div class="input-group">
+                                <label for="settings-cashier-name">Nama Kasir</label>
+                                <input type="text" id="settings-cashier-name" required placeholder="Contoh: Andrian">
+                            </div>
+                            <div class="input-group">
+                                <label for="settings-footer-1">Pesan Penutup 1 (Footer)</label>
+                                <input type="text" id="settings-footer-1" required placeholder="Contoh: Terima Kasih Atas Kunjungan Anda">
+                            </div>
+                            <div class="input-group">
+                                <label for="settings-footer-2">Pesan Penutup 2 (Footer)</label>
+                                <input type="text" id="settings-footer-2" placeholder="Contoh: Dukung Kami dengan Datang Kembali!">
+                            </div>
+                            <button type="submit" class="checkout-btn" style="margin-top: 1.5rem;">Simpan Pengaturan</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL 1: PAYMENT CHECKOUT -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Proses Pembayaran</h2>
+                <span class="close-modal" onclick="closeModal('payment-modal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="payment-summary">
+                    <div class="pay-total-due">
+                        <span>Total yang harus dibayar:</span>
+                        <h1 id="pay-amount-due">Rp 0</h1>
+                    </div>
+                </div>
+
+                <div class="payment-method-selector">
+                    <label>Metode Pembayaran</label>
+                    <div class="method-grid">
+                        <button class="method-btn active" id="method-cash" onclick="selectPaymentMethod('Cash')">
+                            💵 Tunai (Cash)
+                        </button>
+                        <button class="method-btn" id="method-qris" onclick="selectPaymentMethod('QRIS')">
+                            📱 QRIS
+                        </button>
+                        <button class="method-btn" id="method-card" onclick="selectPaymentMethod('Card')">
+                            💳 Debit / Kredit
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tunai/Cash Details -->
+                <div id="cash-payment-fields" class="payment-fields">
+                    <div class="input-group">
+                        <label for="cash-received">Uang Diterima (Rp)</label>
+                        <input type="number" id="cash-received" placeholder="Masukkan jumlah uang..." oninput="calculateChange()">
+                    </div>
+                    
+                    <div class="quick-cash-grid">
+                        <button class="quick-cash-btn" onclick="quickCash('pas')">Uang Pas</button>
+                        <button class="quick-cash-btn" onclick="quickCash(20000)">20K</button>
+                        <button class="quick-cash-btn" onclick="quickCash(50000)">50K</button>
+                        <button class="quick-cash-btn" onclick="quickCash(100000)">100K</button>
+                        <button class="quick-cash-btn" onclick="quickCash(200000)">200K</button>
+                    </div>
+
+                    <div class="change-display">
+                        <span>Uang Kembalian:</span>
+                        <h2 id="cash-change" class="pas">Rp 0</h2>
+                    </div>
+                </div>
+
+                <!-- Non-Cash details (QRIS / Card) -->
+                <div id="non-cash-fields" class="payment-fields" style="display: none;">
+                    <div class="non-cash-status">
+                        <div class="qris-box" id="qris-scanner" style="display: none;">
+                            <div class="qris-logo">QRIS</div>
+                            <div class="qris-barcode-sim">
+                                <!-- Simulated barcode lines -->
+                                <div class="barcode-line"></div>
+                                <div class="barcode-line"></div>
+                                <div class="barcode-line"></div>
+                                <div class="barcode-line"></div>
+                                <div class="barcode-line"></div>
+                                <div class="barcode-line"></div>
+                                <div class="barcode-line"></div>
+                            </div>
+                            <p>Tunjukkan QRIS ke pelanggan untuk discan</p>
+                        </div>
+                        <div class="card-box" id="card-terminal" style="display: none;">
+                            <div class="terminal-screen">Masukkan / Gesek Kartu</div>
+                            <p>Proses pembayaran dengan mesin EDC EDC-900</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary-btn" onclick="closeModal('payment-modal')">Batal</button>
+                <button class="modal-btn primary-btn" id="btn-submit-payment" onclick="processPayment()" disabled>Selesaikan Transaksi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: RECEIPT PREVIEW (PRINT SIMULATION) -->
+    <div id="receipt-modal" class="modal">
+        <div class="modal-content receipt-modal-content">
+            <div class="modal-header">
+                <h2>Struk Pembelian</h2>
+                <span class="close-modal" onclick="closeModal('receipt-modal')">&times;</span>
+            </div>
+            <div class="modal-body receipt-body">
+                <!-- Thermal paper simulation -->
+                <div class="thermal-receipt" id="thermal-receipt">
+                    <div class="receipt-header">
+                        <h3 class="receipt-title" id="receipt-title-val">CAFFÈ COZY NOOK</h3>
+                        <p class="receipt-subtitle" id="receipt-address-val">Jl. Aroma Kopi No. 45, Bandung</p>
+                        <p class="receipt-subtitle" id="receipt-phone-val">Telp: (022) 123-4567</p>
+                        <div class="divider-dashed"></div>
+                    </div>
+                    
+                    <div class="receipt-info">
+                        <p>No: <span id="receipt-tx-id">TX-10001</span></p>
+                        <p>Tanggal: <span id="receipt-date">30-06-2026 08:50</span></p>
+                        <p>Kasir: <span id="receipt-cashier">Staff Kasir</span></p>
+                        <p>Metode: <span id="receipt-method">Tunai</span></p>
+                        <div class="divider-dashed"></div>
+                    </div>
+
+                    <div class="receipt-items" id="receipt-items-list">
+                        <!-- Loaded dynamically -->
+                    </div>
+
+                    <div class="divider-dashed"></div>
+
+                    <div class="receipt-summary">
+                        <div class="r-row">
+                            <span>Subtotal:</span>
+                            <span id="receipt-subtotal">Rp 0</span>
+                        </div>
+                        <div class="r-row">
+                            <span id="receipt-tax-label">Pajak (10%):</span>
+                            <span id="receipt-tax">Rp 0</span>
+                        </div>
+                        <div class="r-row" id="receipt-discount-row">
+                            <span>Diskon:</span>
+                            <span id="receipt-discount">Rp 0</span>
+                        </div>
+                        <div class="r-row grand-total">
+                            <span>TOTAL:</span>
+                            <span id="receipt-total">Rp 0</span>
+                        </div>
+                        <div class="divider-dashed"></div>
+                        <div class="r-row">
+                            <span>Bayar:</span>
+                            <span id="receipt-paid">Rp 0</span>
+                        </div>
+                        <div class="r-row">
+                            <span>Kembali:</span>
+                            <span id="receipt-change">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <div class="receipt-footer">
+                        <div class="divider-dashed"></div>
+                        <p id="receipt-footer-msg1">Terima Kasih Atas Kunjungan Anda</p>
+                        <p id="receipt-footer-msg2">Dukung Kami dengan Datang Kembali!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer receipt-actions">
+                <button class="modal-btn secondary-btn" onclick="closeModal('receipt-modal')">Tutup</button>
+                <button class="modal-btn primary-btn" onclick="printReceipt()">Cetak Struk (PDF)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: ADD/EDIT MENU ITEM -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="menu-modal-title">Tambah Menu Baru</h2>
+                <span class="close-modal" onclick="closeModal('menu-modal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="menu-form" onsubmit="saveMenuItem(event)">
+                    <input type="hidden" id="menu-id-input">
+                    
+                    <div class="input-group">
+                        <label for="menu-name-input">Nama Menu</label>
+                        <input type="text" id="menu-name-input" required placeholder="Contoh: Cappuccino Hazelnut">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="menu-category-input">Kategori</label>
+                        <select id="menu-category-input" required>
+                            <option value="kopi">☕ Kopi</option>
+                            <option value="non-kopi">🥤 Non-Kopi</option>
+                            <option value="makanan">🍛 Makanan</option>
+                            <option value="cemilan">🥐 Cemilan</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="menu-price-input">Harga (Rp)</label>
+                        <input type="number" id="menu-price-input" min="0" required placeholder="Contoh: 25000">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="menu-desc-input">Deskripsi Singkat</label>
+                        <input type="text" id="menu-desc-input" placeholder="Contoh: Espreso pekat dengan sirup hazelnut dan susu lembut">
+                    </div>
+
+                    <input type="hidden" id="menu-emoji-input" value="☕">
+
+                    <div class="modal-footer" style="padding-right: 0; padding-bottom: 0;">
+                        <button type="button" class="modal-btn secondary-btn" onclick="closeModal('menu-modal')">Batal</button>
+                        <button type="submit" class="modal-btn primary-btn">Simpan Menu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script connection -->
+    <script src="app.js"></script>
+</body>
+</html>
