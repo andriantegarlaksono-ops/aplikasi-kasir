@@ -753,3 +753,34 @@ function saveSettings(event) {
     localStorage.setItem('cozy_cafe_settings', JSON.stringify(settings));
     alert('Pengaturan struk berhasil disimpan!');
 }
+// Fitur Tutup Buku: Reset statistik harian tanpa menghapus history permanen
+function tutupBukuHarian() {
+    // 1. Ambil transaksi hari ini
+    if (transactions.length === 0) {
+        alert("Belum ada transaksi hari ini untuk ditutup buku.");
+        return;
+    }
+
+    const konfirmasi = confirm("Apakah Anda yakin ingin melakukan Tutup Buku? Statistik hari ini akan kembali ke Rp 0, dan semua transaksi hari ini akan dipindahkan ke Arsip Permanen.");
+    
+    if (konfirmasi) {
+        // 2. Ambil data arsip lama yang sudah ada di localStorage (jika ada)
+        let archive = [];
+        if (localStorage.getItem('cozy_cafe_archive')) {
+            archive = JSON.parse(localStorage.getItem('cozy_cafe_archive'));
+        }
+
+        // 3. Gabungkan transaksi hari ini ke dalam arsip permanen
+        archive = archive.concat(transactions);
+        localStorage.setItem('cozy_cafe_archive', JSON.stringify(archive));
+
+        // 4. Kosongkan transaksi harian
+        transactions = [];
+        localStorage.setItem('cozy_cafe_transactions', JSON.stringify(transactions));
+
+        // 5. Perbarui tampilan halaman kasir menjadi Rp 0 kembali
+        renderHistory();
+        
+        alert("Tutup buku berhasil! Statistik harian telah di-reset, dan data aman di arsip.");
+    }
+}
