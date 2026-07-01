@@ -1180,10 +1180,18 @@ td {
 }
 
 .receipt-body {
+    /* --- Cari baris ini di CSS-mu dan ganti menjadi seperti ini: --- */
+.receipt-body {
     background-color: #e5e5e5;
     padding: 1.5rem;
-    display: flex;
-    justify-content: center;
+    display: flex;[cite: 3]
+    justify-content: center;[cite: 3]
+    
+    /* --- TAMBAHAN BARU AGAR BISA SCROLL --- */
+    max-height: 65vh;          /* Membatasi tinggi struk di layar agar tidak bablas ke bawah */
+    overflow-y: auto;          /* Memunculkan scrollbar vertikal jika item sangat banyak */
+    padding-right: 10px;       /* Memberi jarak aman di kanan agar teks tidak tertutup scrollbar */
+}
 }
 
 /* Thermal receipt simulation paper */
