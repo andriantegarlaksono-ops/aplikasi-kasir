@@ -1179,7 +1179,7 @@ td {
     max-width: 400px;
 }
 
-.receipt-body {
+
     /* --- Cari baris ini di CSS-mu dan ganti menjadi seperti ini: --- */
 .receipt-body {
     background-color: #e5e5e5;
@@ -1333,6 +1333,14 @@ td {
     }
     .modal-header, .receipt-actions, .modal-footer, .sidebar, .main-content {
         display: none !important;
+    }
+    /* Taruh receipt-body di sini khusus untuk mode cetak */
+    .receipt-body {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-height: none !important;   /* Menghapus batas scroll saat diprint */
+        overflow: visible !important;  /* Memastikan teks keluar semua di kertas */
     }
 }
 
